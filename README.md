@@ -178,6 +178,21 @@ cmcp uninstall                       # Remove from both
 cmcp uninstall --target codex        # Remove from one
 ```
 
+## Agent/client routing instructions
+
+After `cmcp install`, the client sees one MCP server named `code-mode-mcp` with the `search` and `execute` tools. The repository includes a reusable skill at `skills/cmcp-mcp-router/SKILL.md` that tells agents how to route MCP work through that proxy instead of calling upstream servers directly.
+
+Use it anywhere you want the agent to understand cmcp's workflow:
+
+| Client | How to install the routing instructions |
+| --- | --- |
+| Oh My Pi | Copy `skills/cmcp-mcp-router/SKILL.md` to `~/.omp/agent/skills/cmcp-mcp-router/SKILL.md`. |
+| Claude Code | Copy the directory to `~/.claude/skills/cmcp-mcp-router/` for a personal skill, or `.claude/skills/cmcp-mcp-router/` for a project skill. |
+| OpenCode | Paste the skill's Client Instruction Block into `AGENTS.md`, or point an OpenCode agent prompt at equivalent instructions in `opencode.json`. |
+| Other MCP clients | Add the Client Instruction Block to the client's system, developer, project, or agent instructions. |
+
+The core rule for every client is: discover with `code-mode-mcp.search`, inspect the schema, then invoke with `code-mode-mcp.execute`. If direct provider MCP tools are also visible, prefer cmcp unless a server cannot be proxied, such as lifecycle-hook servers or interactive OAuth flows.
+
 ## Scopes
 
 cmcp supports the same scoping as Claude:
