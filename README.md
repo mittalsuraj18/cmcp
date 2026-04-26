@@ -21,6 +21,7 @@ The agent writes code to interact with tools, not JSON blobs. This means:
 
 - **99% fewer tool definitions** in context (2 vs hundreds)
 - **Hot-reload** — add servers without restarting Claude or Codex
+- **Fast startup** — `cmcp serve` exposes `search` and `execute` immediately while upstream MCP servers initialize in the background; early calls may return a retryable "still initializing" error
 - **Composable** — chain multiple tool calls in a single execution
 - **Type-safe** — auto-generated TypeScript declarations from JSON Schema
 - **Sandboxed** — code runs in a QuickJS engine with a 64 MB memory limit
