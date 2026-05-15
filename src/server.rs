@@ -56,11 +56,11 @@ fn file_mtime(path: &PathBuf) -> Option<SystemTime> {
 }
 
 impl CodeModeServer {
-    pub fn new_background(
+    pub async fn new_background(
         servers: std::collections::HashMap<String, config::ServerConfig>,
         config_path: Option<PathBuf>,
     ) -> Self {
-        let engine = Arc::new(ProxyEngine::starting(servers.len()));
+        let engine = Arc::new(ProxyEngine::starting(servers.len()).await);
         engine.start_background_load(servers);
 
         // Snapshot current config file mtimes.

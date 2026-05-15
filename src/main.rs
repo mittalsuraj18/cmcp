@@ -918,7 +918,7 @@ async fn cmd_serve(config_path: Option<&PathBuf>) -> Result<()> {
         "starting upstream server initialization in background (user + project configs merged)"
     );
 
-    let server = crate::server::CodeModeServer::new_background(cfg.servers, config_path.cloned());
+    let server = crate::server::CodeModeServer::new_background(cfg.servers, config_path.cloned()).await;
 
     info!("starting MCP server on stdio (hot-reload enabled)");
     let service = server.serve(stdio()).await?;
