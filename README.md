@@ -178,20 +178,21 @@ cmcp uninstall                       # Remove from both
 cmcp uninstall --target codex        # Remove from one
 ```
 
-## Agent/client routing instructions
+## Agent skill
 
-After `cmcp install`, the client sees one MCP server named `code-mode-mcp` with the `search` and `execute` tools. The repository includes a reusable skill at `skills/cmcp-mcp-router/SKILL.md` that tells agents how to route MCP work through that proxy instead of calling upstream servers directly.
+After `cmcp install`, the client sees one MCP server named `code-mode-mcp` with the `search` and `execute` tools. The repository includes an [Agent Skills](https://agentskills.io) skill at `skills/cmcp-mcp-router/SKILL.md` that tells agents to route MCP work through the proxy instead of calling upstream servers directly.
 
-Use it anywhere you want the agent to understand cmcp's workflow:
+Any Agent Skills–compatible client will discover the skill automatically when placed in a standard skill directory. Install it by copying or symlinking the `cmcp-mcp-router/` directory:
 
-| Client | How to install the routing instructions |
+| Scope | Location |
 | --- | --- |
-| Oh My Pi | Copy `skills/cmcp-mcp-router/SKILL.md` to `~/.omp/agent/skills/cmcp-mcp-router/SKILL.md`. |
-| Claude Code | Copy the directory to `~/.claude/skills/cmcp-mcp-router/` for a personal skill, or `.claude/skills/cmcp-mcp-router/` for a project skill. |
-| OpenCode | Paste the skill's Client Instruction Block into `AGENTS.md`, or point an OpenCode agent prompt at equivalent instructions in `opencode.json`. |
-| Other MCP clients | Add the Client Instruction Block to the client's system, developer, project, or agent instructions. |
+| Project (OpenCode) | `.opencode/skills/cmcp-mcp-router/` |
+| Project (Claude Code) | `.claude/skills/cmcp-mcp-router/` |
+| Global (OpenCode) | `~/.config/opencode/skills/cmcp-mcp-router/` |
+| Global (Claude Code) | `~/.claude/skills/cmcp-mcp-router/` |
+| Global (any compatible client) | `~/.agents/skills/cmcp-mcp-router/` |
 
-The core rule for every client is: discover with `code-mode-mcp.search`, inspect the schema, then invoke with `code-mode-mcp.execute`. If direct provider MCP tools are also visible, prefer cmcp unless a server cannot be proxied, such as lifecycle-hook servers or interactive OAuth flows.
+OpenCode also discovers skills from `.agents/skills/` at the project root, so the included `skills/` directory works if symlinked or copied there. For other clients, add the skill directory wherever the client looks for Agent Skills.
 
 ## Scopes
 
